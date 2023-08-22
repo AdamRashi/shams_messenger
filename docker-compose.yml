@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env.example
+
+  backend:
+    build: 
+      context: ./backend/
+    container_name: shams-messenger-back
+    env_file:
+      - .env.example
+    command: ["/chat_app/docker/run_back.sh"]
+    ports:
+      - "9999:8001"
+    depends_on:
+      - db
+
+
+# volumes:
